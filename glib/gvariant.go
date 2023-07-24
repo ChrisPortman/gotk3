@@ -437,7 +437,7 @@ func VariantParseBytes(vType *VariantType, data []byte) *Variant {
 	cstr := C.CString(string(data))
 	defer C.free(unsafe.Pointer(cstr))
 	var gerr *C.GError
-	c := C.g_variant_new_from_bytes(vType.native(), (*C.gchar)(cstr), true)
+	c := C.g_variant_new_from_bytes(vType.native(), (*C.gbytes)(cstr), 1)
 	if c == nil {
 		defer C.g_error_free(gerr)
 		return nil
