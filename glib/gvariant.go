@@ -445,7 +445,6 @@ func VariantParseBytes(vType *VariantType, data []byte) *Variant {
 	gbytes := GBytesFromBytes(data)
 	c := C.g_variant_new_from_bytes(vType.native(), gbytes.CGBytes, 1)
 	if c == nil {
-		defer C.g_error_free(gerr)
 		return nil
 	}
 	// will be freed during GC
