@@ -343,9 +343,9 @@ func (v *Variant) AnnotatedString() string {
 	return C.GoString((*C.char)(gc))
 }
 
-func (v *Variant) IterNew() *GVariantIter {
+func (v *Variant) IterNew() *VariantIter {
 	iter := C.g_variant_iter_new(v.native())
-	return &GVariantIter{(*C.GVariantIter)(iter)}
+	return &VariantIter{(*C.GVariantIter)(iter)}
 }
 
 // TODO:

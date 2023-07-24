@@ -50,3 +50,11 @@ func (v *VariantIter) native() *C.GVariantIter {
 func (v *VariantIter) Native() uintptr {
 	return uintptr(unsafe.Pointer(v.native()))
 }
+
+func (v *VariantIter) NextValue() *Variant {
+	child := C.g_variant_iter_next_value(v.native())
+	if child == nil {
+		return nil
+	}
+	return &Variant{(*C.GVariant)(child)}
+}
