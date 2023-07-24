@@ -343,6 +343,11 @@ func (v *Variant) AnnotatedString() string {
 	return C.GoString((*C.char)(gc))
 }
 
+func (v *Variant) IterNew() *GVariantIter {
+	iter := C.g_variant_iter_new(v.native())
+	return &GVariantIter{(*C.GVariantIter)(iter)}
+}
+
 // TODO:
 //gint	g_variant_compare ()
 //GVariantClass	g_variant_classify ()
