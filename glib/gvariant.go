@@ -433,6 +433,20 @@ func (v *Variant) AnnotatedString() string {
 //#define	G_VARIANT_PARSE_ERROR
 
 // VariantParse is a wrapper around g_variant_parse()
+func VariantParseBytes(vType *VariantType, data []byte) *Variant {
+	cstr := C.CString(string(data))
+	defer C.free(unsafe.Pointer(cstr))
+	var gerr *C.GError
+	c := C.g_variant_new_from_bytes(vType.native(), (*C.gchar)(cstr), true)
+	if c == nil {
+		defer C.g_error_free(gerr)
+		return nil
+	}
+	// will be freed during GC
+	return takeVariant(c)
+}
+
+// VariantParse is a wrapper around g_variant_parse()
 func VariantParse(vType *VariantType, text string) (*Variant, error) {
 	cstr := C.CString(text)
 	defer C.free(unsafe.Pointer(cstr))
