@@ -437,13 +437,13 @@ type GBytes struct {
 }
 
 func GBytesFromBytes(data []byte) *GBytes {
-	return &GBytes{C.g_bytes_new(unsafe.Pointer(&data), len(data))}
+	return &GBytes{C.g_bytes_new((*C.gconstpointer)(unsafe.Pointer(&data)), len(data))}
 }
 
 // VariantParse is a wrapper around g_variant_parse()
 func VariantParseBytes(vType *VariantType, data []byte) *Variant {
 	gbytes := GBytesFromBytes(data)
-	c := C.g_variant_new_from_bytes(vType.native(), gbytes.CGBytes, 1)
+	c := C.g_variant_new_from_bytes(vType.native(), gbytes.CGBytes, C.ulong(1))
 	if c == nil {
 		defer C.g_error_free(gerr)
 		return nil
